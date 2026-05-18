@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(number VERSION 0.1 LANGUAGES CXX)
+project(unconvector VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+# ТОЛЬКО файлы, которые лежат в папке unconvector
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -20,51 +21,69 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(number
+    qt_add_executable(unconvector
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        BigInteger.h
-        BigInteger.cpp
-        BigFraction.h
-        BigFraction.cpp
-        Parser.h
-        Parser.cpp
-        Formatter.h
-        Formatter.cpp
-        BaseConverter.h
-        BaseConverter.cpp
-        ResultWindow.h
-        ResultWindow.cpp
-        test.h
-
+        # Все файлы классов - ТОЛЬКО локальные
+        ${CMAKE_CURRENT_SOURCE_DIR}/BigInteger.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/BigInteger.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BigFraction.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/BigFraction.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Parser.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Parser.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Formatter.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Formatter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BaseConverter.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/BaseConverter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ResultWindow.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ResultWindow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test.h
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET number APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(number SHARED
+        add_library(unconvector SHARED
             ${PROJECT_SOURCES}
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigInteger.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigInteger.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigFraction.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigFraction.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Parser.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Parser.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Formatter.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Formatter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/BaseConverter.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/BaseConverter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/ResultWindow.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/ResultWindow.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/test.h
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(number
+        add_executable(unconvector
             ${PROJECT_SOURCES}
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigInteger.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigInteger.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigFraction.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/BigFraction.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Parser.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Parser.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Formatter.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Formatter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/BaseConverter.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/BaseConverter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/ResultWindow.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/ResultWindow.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/test.h
         )
     endif()
 endif()
 
-target_link_libraries(number PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(unconvector PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.number)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.unconvector)
 endif()
-set_target_properties(number PROPERTIES
+
+set_target_properties(unconvector PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -73,12 +92,12 @@ set_target_properties(number PROPERTIES
 )
 
 include(GNUInstallDirs)
-install(TARGETS number
+install(TARGETS unconvector
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(number)
+    qt_finalize_executable(unconvector)
 endif()
