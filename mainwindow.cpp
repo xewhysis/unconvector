@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ResultWindow.h"
 #include "BaseConverter.h"
+#include "test.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLineEdit>
@@ -47,14 +48,19 @@ MainWindow::MainWindow() {
 
 void MainWindow::convert() {
     try {
-        int p = baseFromEdit->text().toInt();
-        int q = baseToEdit->text().toInt();
+        QString sp = baseFromEdit->text();
+        QString sq = baseToEdit->text();
+        test(sp);
+        test(sq);
+        int p = sp.toInt();
+        int q = sq.toInt();
+        // qDebug() << p << q;
         if (p < 2 || p > 500 || q < 2 || q > 500)
             throw "Base must be in range 2..500";
         QString result = BaseConverter::convert(inputEdit->text(), p, q);
         resultEdit->setText(result);
         lastResult = result;
-        statusLabel->setText("Success");
+        // statusLabel->setText("Success");
         // ResultWindow* rw = new ResultWindow(this);
         // rw->setText(result);
         // rw->show();
