@@ -12,10 +12,14 @@ static BigInteger powBig(int base, int power) {
 
 QVector<QString> tokenize(const QString& str) {
     QVector<QString> tokens;
-    for (int i = 0; i < str.size();) {
+    int i = 0;
+    while (i < str.size()) {
         if (str[i] == '[') {
             int j = str.indexOf(']', i);
-            if (j == -1) throw "не закрыта ]";
+            if (j == -1) {
+                QMessageBox::critical(nullptr, "ERROR", "не закрыта ]");
+                throw "";
+            }
             tokens.push_back(str.mid(i, j - i + 1));
             i = j + 1;
         } else {
@@ -92,6 +96,11 @@ BigFraction Parser::parse(const QString& input, int base) {
             inPeriod = false;
             periodClose = true;
             continue;
+        }
+
+        if (periodClose) {
+            QMessageBox::critical(nullptr, "ERROR11", "некорректная запись числа");
+            throw "";
         }
 
         if (!afterDot)

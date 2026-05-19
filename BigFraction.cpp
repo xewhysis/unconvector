@@ -25,3 +25,43 @@ void BigFraction::output() {
     qDebug() << "/";
     denominator.print();
 }
+
+BigInteger lcm(const BigInteger& a, const BigInteger& b) {
+    return a / BigInteger::gcd(a, b) * b;
+}
+
+BigFraction BigFraction::operator+(const BigFraction& other) const {
+    BigInteger newDenominator = lcm(denominator, other.denominator);
+    BigInteger newNumerator = numerator * (newDenominator / denominator)
+                              + other.numerator * (newDenominator / other.denominator);
+    return BigFraction(newNumerator, newDenominator);
+}
+
+BigFraction BigFraction::operator-(const BigFraction& other) const {
+    BigInteger newDenominator = lcm(denominator, other.denominator);
+    BigInteger newNumerator = numerator * (newDenominator / denominator)
+                              - other.numerator * (newDenominator / other.denominator);
+
+    return BigFraction(newNumerator, newDenominator);
+}
+
+BigFraction BigFraction::operator*(const BigFraction& other) const {
+    BigInteger newNum = numerator * other.numerator;
+    BigInteger newDen = denominator * other.denominator;
+    return BigFraction(newNum, newDen);
+}
+
+BigFraction BigFraction::operator/(const BigFraction& other) const {
+    BigInteger newNum = numerator * other.denominator;
+    BigInteger newDen = denominator * other.numerator;
+    return BigFraction(newNum, newDen);
+}
+
+BigInteger BigFraction::floor() const {
+    return numerator / denominator;
+}
+
+BigInteger BigFraction::remainder() const {
+    BigInteger intPart = floor();
+    return numerator - intPart * denominator;
+}

@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+
 MainWindow::MainWindow() {
     auto* central = new QWidget;
     auto* layout = new QVBoxLayout;
@@ -22,6 +23,8 @@ MainWindow::MainWindow() {
     auto* convertButton = new QPushButton("Convert");
     auto* loadButton = new QPushButton("Load from file");
     auto* saveButton = new QPushButton("Save result");
+
+
     statusLabel = new QLabel;
     layout->addWidget(new QLabel("Input number"));
     layout->addWidget(inputEdit);
@@ -35,6 +38,7 @@ MainWindow::MainWindow() {
     layout->addWidget(new QLabel("Result"));
     layout->addWidget(resultEdit);
     layout->addWidget(statusLabel);
+
     central->setLayout(layout);
     setCentralWidget(central);
     connect(convertButton, &QPushButton::clicked,
@@ -77,10 +81,9 @@ void MainWindow::loadFile() {
     if (!file.open(QIODevice::ReadOnly))
         return;
     QTextStream in(&file);
-    inputEdit->setText(in.readLine());
     baseFromEdit->setText(in.readLine());
     baseToEdit->setText(in.readLine());
-
+    inputEdit->setText(in.readLine());
 }
 void MainWindow::saveFile() {
     QString fileName = QFileDialog::getSaveFileName(this);
@@ -92,3 +95,4 @@ void MainWindow::saveFile() {
     QTextStream out(&file);
     out << lastResult;
 }
+

@@ -36,6 +36,7 @@ std::string BigInteger::toString() const {
         ss << std::setw(9) << std::setfill('0') << digits[i];
     }
     return ss.str();
+
 }
 bool operator<(const BigInteger& a, const BigInteger& b) {
     if (a.digits.size() != b.digits.size())
@@ -162,7 +163,7 @@ void BigInteger::split(int half, BigInteger& high, BigInteger& low) const {
     high.trim();
 }
 
-BigInteger BigInteger::naiveMultiply(const BigInteger& a, const BigInteger& b) {
+BigInteger BigInteger::baseMultiply(const BigInteger& a, const BigInteger& b) {
     int maxSize = a.digits.size() + b.digits.size();
     std::vector<long long> temp(maxSize, 0);
 
@@ -192,11 +193,7 @@ BigInteger BigInteger::karatsubaMultiply(const BigInteger& a, const BigInteger& 
     }
 
     if (a.digits.size() <= 64 || b.digits.size() <= 64) {
-        return naiveMultiply(a, b);
-    }
-
-    if (std::abs(static_cast<int>(a.digits.size()) - static_cast<int>(b.digits.size())) > 64) {
-        return naiveMultiply(a, b);
+        return baseMultiply(a, b);
     }
 
     int n = std::max(a.digits.size(), b.digits.size());
@@ -230,4 +227,20 @@ void BigInteger::print(int count) {
     count++;
     print(count);
     qDebug() << digits[count - 1];
+}
+
+bool operator!=(const BigInteger& a, const BigInteger& b) {
+    return !(a == b);
+}
+
+bool operator>(const BigInteger& a, const BigInteger& b) {
+    return b < a;
+}
+
+bool operator<=(const BigInteger& a, const BigInteger& b) {
+    return (a < b) || (a == b);
+}
+
+bool operator>=(const BigInteger& a, const BigInteger& b) {
+    return (a > b) || (a == b);
 }

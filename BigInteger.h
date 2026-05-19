@@ -22,6 +22,10 @@ public:
 
     friend bool operator<(const BigInteger& a, const BigInteger& b);
     friend bool operator==(const BigInteger& a, const BigInteger& b);
+    friend bool operator<=(const BigInteger& a, const BigInteger& b);
+    friend bool operator!=(const BigInteger& a, const BigInteger& b);
+    friend bool operator>(const BigInteger& a, const BigInteger& b);
+    friend bool operator>=(const BigInteger& a, const BigInteger& b);
 
     friend BigInteger operator+(const BigInteger& a, const BigInteger& b);
     friend BigInteger operator-(const BigInteger& a, const BigInteger& b);
@@ -37,6 +41,6 @@ public:
 
     void split(int half, BigInteger& high, BigInteger& low) const;
     static BigInteger karatsubaMultiply(const BigInteger& a, const BigInteger& b);
-    static BigInteger naiveMultiply(const BigInteger& a, const BigInteger& b);
+    static BigInteger baseMultiply(const BigInteger& a, const BigInteger& b);
     friend BigInteger karatsuba(const BigInteger& a, const BigInteger& b);
 };
