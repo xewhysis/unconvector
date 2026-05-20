@@ -44,6 +44,13 @@ int tokenToDigit(const QString& token, int base) {
 
     if (token.startsWith('[')) {
         QString ss = token.mid(1, token.size() - 2);
+        try {
+            test(ss);
+        } catch (const char* error) {
+            QMessageBox::critical(nullptr, "ERROR", error);
+            throw "";
+        }
+
         d = ss.toInt();
     }
     else {

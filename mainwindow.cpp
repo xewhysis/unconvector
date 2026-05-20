@@ -83,9 +83,9 @@ void MainWindow::loadFile() {
     if (!file.open(QIODevice::ReadOnly))
         return;
     QTextStream in(&file);
+    baseFromEdit->setText(in.readLine());
     baseToEdit->setText(in.readLine());
     inputEdit->setText(in.readLine());
-    baseFromEdit->setText(in.readLine());
 }
 void MainWindow::saveFile() {
     QString fileName = QFileDialog::getSaveFileName(this);
