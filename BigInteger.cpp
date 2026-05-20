@@ -114,7 +114,7 @@ BigInteger operator/(const BigInteger& a, const BigInteger& b) {
             int m = (l + r) / 2;
             BigInteger t = b;
             t.mulShort(m);
-            if (!(cur < t)) {
+            if (cur >= t) {
                 x = m;
                 l = m + 1;
             }
