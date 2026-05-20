@@ -61,6 +61,8 @@ void MainWindow::convert() {
         // qDebug() << p << q;
         if (p < 2 || p > 500 || q < 2 || q > 500)
             throw "Base must be in range 2..500";
+        if (inputEdit->text() == "")
+            throw "строка должна быть непустой";
         QString result = BaseConverter::convert(inputEdit->text(), p, q);
         resultEdit->setText(result);
         lastResult = result;

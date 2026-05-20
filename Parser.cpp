@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "test.h"
 #include <QVector>
 #include <QMessageBox>
 
@@ -20,7 +21,16 @@ QVector<QString> tokenize(const QString& str) {
                 QMessageBox::critical(nullptr, "ERROR", "не закрыта ]");
                 throw "";
             }
-            tokens.push_back(str.mid(i, j - i + 1));
+            QString sstring = str.mid(i, j - i + 1);
+            if (sstring.size() == 2 || sstring[1].isLetter() && sstring[2] != "]") {
+                QMessageBox::critical(nullptr, "ERROR", "неверная запись числа");
+                throw "";
+            }
+            if (sstring[1].isLetter()) {
+                sstring = QString(sstring[1]);
+            }
+
+            tokens.push_back(sstring);
             i = j + 1;
         } else {
             tokens.push_back(QString(str[i]));
@@ -33,7 +43,8 @@ int tokenToDigit(const QString& token, int base) {
     int d;
 
     if (token.startsWith('[')) {
-        d = token.mid(1, token.size() - 2).toInt();
+        QString ss = token.mid(1, token.size() - 2);
+        d = ss.toInt();
     }
     else {
         QChar c = token[0];
